@@ -13,8 +13,6 @@ provider "yandex" {
   folder_id = "${var.folder_id}"
   zone = "${var.zone}"
 }
-
-/* 
 resource "yandex_compute_instance" "srv1" {
   description = "B5.3.7 practice"
   name = "srv1-terr"
@@ -25,16 +23,15 @@ resource "yandex_compute_instance" "srv1" {
     cores = 2
     memory = 4
   }
-  bootdisk {
+  boot_disk {
     initialize_params {
-      image_id = var.os-image_id
+      image_id = var.os-image-id
     }
   }
   network_interface {
     subnet_id = "${yandex_vpc_subnet.internal-net1.id}"
   }
 }
-*/
 
 /*
 ---------------------------------------------------------------------
@@ -62,13 +59,6 @@ resource "yandex_compute_instance" "default" {
     foo      = "bar"
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-}
-
-resource "yandex_vpc_network" "foo" {}
-
-resource "yandex_vpc_subnet" "foo" {
-  zone       = "ru-central1-a"
-  network_id = "${yandex_vpc_network.foo.id}"
 }
 */
 
