@@ -28,7 +28,8 @@ resource "yandex_compute_instance" "srv1" {
 }
   boot_disk {
     initialize_params {
-      image_id = var.os-image-id
+      //image_id = var.os-image-id
+      image_id = "${data.yandex_compute_image.lemp-image.id}"
     }
   }
   network_interface {
@@ -37,7 +38,8 @@ resource "yandex_compute_instance" "srv1" {
   }
   metadata = {
     // ssh-path alsow described in separate secure.tf file
-    ssh-keys = "yuri:${file(var.ssh-path)}"
+    serial-port-enable = 1
+    ssh-keys = "ubuntu:${file(var.ssh-path)}"
   }
 }
 locals {
