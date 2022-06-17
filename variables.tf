@@ -14,5 +14,8 @@ variable "zone" {
 variable "os-image-id" {
   description = "lemp image id is fd8it9bbj7qma34iaqgc"
   type = string
-  default = "fd8it9bbj7qma34iaqgc"
+  default = "$(data.yandex_compute_image.lemp-image.id)"
 }
+data "yandex_compute_image" "lemp-image" {
+    family = "lemp"
+  }

@@ -23,6 +23,9 @@ resource "yandex_compute_instance" "srv1" {
     cores = 2
     memory = 4
   }
+  scheduling_policy {
+  preemptible = false
+}
   boot_disk {
     initialize_params {
       image_id = var.os-image-id
@@ -33,49 +36,10 @@ resource "yandex_compute_instance" "srv1" {
     nat = true
   }
   metadata = {
-    //foo      = "bar"
-    ssh-keys = "win:${file(var.ssh-path)}"
+    // ssh-path alsow described in separate secure.tf file
+    ssh-keys = "yuri:${file(var.ssh-path)}"
   }
 }
 locals {
   external_ip = ["${yandex_compute_instance.srv1.network_interface.0.nat_ip_address}"]
 }
-
-/*
-resource "yandex_vpc_address" "addr" {
-  name = "exampleAddress"
-
-  external_ipv4_address {
-    zone_id = "ru-central1-a"
-  }
-}
-*/
-/*
----------------------------------------------------------------------
-resource "yandex_compute_instance" "default" {
-  name        = "test"
-  platform_id = "standard-v1"
-  zone        = "ru-central1-a"
-
-  resources {
-    cores  = 2
-    memory = 4
-  }
-
-  boot_disk {
-    initialize_params {
-      image_id = "image_id"
-    }
-  }
-
-  network_interface {
-    subnet_id = "${yandex_vpc_subnet.foo.id}"
-  }
-
-  metadata = {
-    foo      = "bar"
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
-  }
-}
-*/
-
