@@ -30,9 +30,26 @@ resource "yandex_compute_instance" "srv1" {
   }
   network_interface {
     subnet_id = "${yandex_vpc_subnet.internal-net1.id}"
+    nat = true
+  }
+  metadata = {
+    //foo      = "bar"
+    ssh-keys = "win:${file(var.ssh-path)}"
   }
 }
+locals {
+  external_ip = ["${yandex_compute_instance.srv1.network_interface.0.nat_ip_address}"]
+}
 
+/*
+resource "yandex_vpc_address" "addr" {
+  name = "exampleAddress"
+
+  external_ipv4_address {
+    zone_id = "ru-central1-a"
+  }
+}
+*/
 /*
 ---------------------------------------------------------------------
 resource "yandex_compute_instance" "default" {
